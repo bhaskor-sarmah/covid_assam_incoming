@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <span th:replace="fragments/unlogged_fragments :: head('e-TravelPermit')">
+  </span>
+  <span th:replace="fragments/unlogged_fragments :: common-css"></span>
+</head>
+
+<body>
+  <nav th:replace="fragments/unlogged_fragments :: nav-top"></nav>
+
+  <!-- Masthead -->
+  <header class="masthead text-white text-center">
+    <div class="overlay"></div>
+    <div class="container" style="filter: none;-webkit-filter: none;">
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5">
+            Please enter below the OTP received on your mobile
+          </h1>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form th:action="@{/otp}" method="POST">
+            <div class="form-row">
+              <div class="col-12 col-md-9 mb-2 mb-md-0">
+                <input type="hidden" name="mobile" id="mobile" th:value="${mobile}" />
+                <input type="text" name="otp" id="otp" class="form-control form-control-lg"
+                  placeholder="Enter OTP received to continue....." />
+              </div>
+              <div class="col-12 col-md-3">
+                <button class="btn btn-block btn-lg btn-primary">
+                  Validate
+                </button>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-12 col-md-9 mb-2 mb-md-0 mt-10">
+                <span style="color: navy;">
+                  OTP not received ?
+                  <a th:href="@{/ResendOtp}">
+                    Click here to resend
+                  </a>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <footer th:replace="fragments/unlogged_fragments :: footer"></footer>
+
+  <span th:replace="fragments/unlogged_fragments :: common-js"></span>
+
+  <script>
+    $(window).on("load", function () {
+
+    });
+  </script>
+  <script th:if="${msgErr}" th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msgErr}]]*/ "";
+    /*]]>*/
+    $.alert({
+      title: 'Error!',
+      content: msg,
+      type: 'red',
+      typeAnimated: true
+    });
+  </script>
+  <script th:if="${msg}" th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/ "";
+    /*]]>*/
+    $.alert({
+      title: 'OTP Sent!',
+      content: msg,
+      type: 'green',
+      typeAnimated: true
+    });
+  </script>
+</body>
+
+</html>

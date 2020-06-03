@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <span th:replace="fragments/unlogged_fragments :: head('e-TravelPermit')">
+  </span>
+  <span th:replace="fragments/unlogged_fragments :: common-css"></span>
+</head>
+
+
+<body>
+  <nav th:replace="fragments/unlogged_fragments :: nav-top"></nav>
+
+  <!-- Masthead -->
+  <header class="masthead text-white text-center">
+    <div class="overlay"></div>
+    <div class="container" style="filter: none;-webkit-filter: none;">
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h3 class="mb-5">
+            Online application for inter state movement<br />(আন্ত: ৰাজ্যিক ভ্ৰমনৰ বাবে অনলাইন আবেদন)
+          </h3>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form th:action="@{/register}" method="POST">
+            <div class="row">
+              <div class="col-12 mb-3">
+                <input type="text" name="mobileNo" id="mobileNo" class="form-control form-control-lg w-100"
+                  placeholder="Enter your mobile number to continue....." />
+                <span class="error" th:if="${errMsg}">Please Enter a valid Mobile No</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <img id="captchaImg" th:src="@{/genCaptchaRegister.png}">
+              </div>
+              <div class="col-2">
+                <button onclick="refreshcatcha();" id="captchaRefreshBut" type="button" class="btn btn-secondary w-100"
+                  style="height : 50px;"><i class="fas fa-redo"></i></button>
+              </div>
+              <div class="col-6">
+                <input type="text" class="form-control w-100" name="captcha" id="captcha" autocomplete="off" required
+                  placeholder="Enter the text shown" style="height : 50px; font-size: 20px;">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-4 offset-md-4">
+                <button type="submit" class="btn btn-block btn-lg btn-primary">
+                  Submit<br>(দাখিল কৰক)
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <footer th:replace="fragments/unlogged_fragments :: footer"></footer>
+
+  <span th:replace="fragments/unlogged_fragments :: common-js"></span>
+
+  <span th:replace="fragments/unlogged_fragments :: login-modal"></span>
+
+  <script>
+    $(window).on("load", function () {
+      $("#loginModal").click(function () {
+        refreshcatchaLogin();
+        $("#myModal").modal("show");
+      });
+      refreshcatcha();
+      $('#myModal').on('hidden.bs.modal', function () {
+        refreshcatcha();
+      });
+    });
+  </script>
+  <script th:if="${msg}" th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/ "";
+    /*]]>*/
+    $.alert({
+      title: 'Success!',
+      content: msg,
+      type: 'green',
+      typeAnimated: true
+    });
+  </script>
+  <script th:if="${msgErr}" th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msgErr}]]*/ "";
+    /*]]>*/
+    $.alert({
+      title: 'Error!',
+      content: msg,
+      type: 'red',
+      typeAnimated: true
+    });
+  </script>
+  <script>
+    function refreshcatcha() {
+      var id = Math.random();
+      $('#captchaImg').attr("src", "/genCaptchaRegister.png?" + id);
+      // $('#ansCaptcha').val("");
+    }
+    function refreshcatchaLogin() {
+      var id = Math.random();
+      $('#captchaImgLogin').attr("src", "/genCaptcha.png?" + id);
+      // $('#ansCaptcha').val("");
+    }
+  </script>
+  <script th:if="${param.error}" th:inline="javascript">
+    $(window).on("load", function () {
+      /*<![CDATA[*/
+      var msg = /*[[${param.error}]]*/ "";
+      /*]]>*/
+      $("#errorMsg").html(msg);
+      $("#myModal").modal("show");
+    });
+  </script>
+</body>
+
+</html>

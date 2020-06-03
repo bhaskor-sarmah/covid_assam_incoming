@@ -1,0 +1,104 @@
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+    height: 450px
+}
+
+/* Set gray background color and 100% height */
+.sidenav {
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+/* Set black background color, white text and some padding */
+footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+    .sidenav {
+        height: auto;
+        padding: 15px;
+    }
+
+    .row.content {
+        height: auto;
+    }
+}
+
+.error-div {
+    color: red;
+    text-align: left;
+}
+
+.error-border {
+    border: 1px solid red;
+}
+
+/* .jumbotron {
+    height: 90vh;
+} */
+
+.input-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.errorMsg {
+    color: red;
+    /* text-align: left; */
+}
+
+#errorMsg {
+    color: red;
+    font-weight: bold;
+    font-size: small;
+}
+
+.success {
+    color: rgb(60, 255, 60);
+    font-weight: bold;
+}
+
+.mandetory {
+    color: red;
+    font-weight: bold;
+    font-size: small;
+    margin-right: 5px;
+}
+
+.not-mandetory {
+    margin-right: 7px;
+}
+
+.divider {
+    border-bottom: 1px solid #DDDDDD;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: small;
+    font-weight: bold;
+    color: #868686;
+    text-transform: uppercase;
+}
+
+header.masthead {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+#captchaRefreshButLogin {
+    background-color: #6C757D;
+}
+
+#captchaRefreshButLogin:hover {
+    background-color: #5A6268;
+}

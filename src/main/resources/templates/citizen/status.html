@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
+<head>
+    <span th:replace="fragments/citizen_fragments :: head('e-TravelPermit')">
+    </span>
+    <span th:replace="fragments/citizen_fragments :: common-css"></span>
+    <style>
+        .variableTxt {
+            text-transform: uppercase;
+            font-size: small;
+            font-weight: 700;
+            color: #383838;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <span th:replace="fragments/citizen_fragments :: side-navbar('','')"></span>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <span th:replace="fragments/citizen_fragments :: top-navbar"></span>
+                <div class="container-fluid">
+                    <div th:unless="${journey}">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Application Details</h6>
+                            </div>
+                            <div class="card-body">
+                                No Application found (কোন আবেদন পত্ৰৰ পোৱা নগল)
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ELSE -->
+                    <div th:if="${journey}">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Application Details
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-responsive" width="100" style="width: 100%;">
+                                    <tbody>
+                                        <tr role="row" class="odd">
+                                            <th colspan="8">
+                                                APPROVAL STATUS
+                                            </th>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td>Status : </td>
+                                            <td><span th:text="${journey.status}" class="variableTxt"></span></td>
+                                            <td>Mobile : </td>
+                                            <td><span th:text="${journey.citizen.mobile}" class="variableTxt"></span>
+                                            </td>
+                                            <td>Action : </td>
+                                            <td>
+                                                <form th:if="${journey.status == 'APPROVED'}"
+                                                    th:action="@{/citizen/downloadPass.pdf}" method="POST">
+                                                    <input type="submit" name="submit" value="Download ePass"
+                                                        class="btn btn-success" />
+                                                    <input type="hidden" name="id" th:value="${journey.id}" />
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <th colspan="8">
+                                                CATEGORY OF PASSENGERS
+                                            </th>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td>Category : </td>
+                                            <td><span th:text="${journey.purpose.purpose}" class="variableTxt"></span>
+                                            </td>
+                                            <td>Category Details:</td>
+                                            <td><span th:text="${journey.purposeDetails}" class="variableTxt"></span>
+                                            </td>
+                                            <td>Willing To :</td>
+                                            <td><span th:text="${journey.journeyType.journeyType}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <th colspan="8">
+                                                PASSENGER DETAILS
+                                            </th>
+                                        </tr>
+                                        <tr role="row" class="odd" th:each="member : ${journey.memList}">
+                                            <td>Name :</td>
+                                            <td><span th:text="${member.memberName}" class="variableTxt"></span>
+                                            </td>
+                                            <td>Age :</td>
+                                            <td><span th:text="${member.memberAge}" class="variableTxt"></span>
+                                            </td>
+                                            <td>Gender :</td>
+                                            <td>
+                                                <span
+                                                    th:text="${(member.memberGender)=='M'?'Male':(member.memberGender)=='F'?'Female':'Other'}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                            <td>Medical Condition :</td>
+                                            <td>
+                                                <span th:text="${member.medCondition}" class="variableTxt"></span>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <th colspan="8">
+                                                JOURNEY FROM
+                                            </th>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td>State :</td>
+                                            <td><span th:text="${journey.fromState.stateName}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                            <td>District :</td>
+                                            <td><span th:text="${journey.fromDistrict.districtName}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                            <td>Sub-District :</td>
+                                            <td><span th:text="${journey.fromSubDistrict.subDistrictName}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                            <td>Pincode :</td>
+                                            <td><span th:text="${journey.fromPincode}" class="variableTxt"></span>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td>Police Station :</td>
+                                            <td><span th:text="${journey.fromPoliceStation}" class="variableTxt"></span>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <th colspan="8">
+                                                JOURNEY TO
+                                            </th>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td>State :</td>
+                                            <td><span th:text="${journey.toState.stateName}" class="variableTxt"></span>
+                                            </td>
+                                            <td>District :</td>
+                                            <td><span th:text="${journey.toDistrict.districtName}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                            <td>Sub-District :</td>
+                                            <td><span th:text="${journey.toSubDistrict.subDistrictName}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                            <td>Pincode :</td>
+                                            <td><span th:text="${journey.toPincode}" class="variableTxt"></span>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td>Police Station :</td>
+                                            <td><span th:text="${journey.toPoliceStation}" class="variableTxt"></span>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <th colspan="8">
+                                                JOURNEY ARRANGEMENT DETAILS
+                                            </th>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td>Arrangement Type :</td>
+                                            <td colspan="2"><span th:text="${journey.arrangementType.arrangementType}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                            <td>Journey Date :</td>
+                                            <td><span th:text="${journey.journeyDate}" class="variableTxt"></span>
+                                            </td>
+                                            <td colspan="2">Mode of Transport :</td>
+                                            <td><span
+                                                    th:text="${(journey.modeOfTransport)=='01'?'By Road':(journey.modeOfTransport)=='02'?'By Train':(journey.modeOfTransport)=='03'?'By Air':''}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td>Transport Details :</td>
+                                            <td colspan="2"><span th:text="${journey.transportDetails}"
+                                                    class="variableTxt"></span>
+                                            </td>
+                                            <td>Assam Border Gate:</td>
+                                            <td><span th:text="${journey.entryDetails}" class="variableTxt"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span th:replace="fragments/citizen_fragments :: footer"></span>
+        </div>
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <span th:replace="fragments/citizen_fragments :: common-js('')"></span>
+    <script>
+        $(function () {
+            $(".loader").fadeOut("slow");
+        });
+    </script>
+</body>
+
+</html>

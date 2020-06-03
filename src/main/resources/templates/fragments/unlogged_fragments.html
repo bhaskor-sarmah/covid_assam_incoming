@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<span th:fragment="head('title')">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="icon" type="image/ico" th:href="@{/images/favicon.ico}">
+  <title>e-TravelPermit</title>
+</span>
+
+<span th:fragment="common-css">
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+
+  <!-- Custom fonts for this template -->
+  <link th:href="@{/plugins/fontawesome-free/css/all.min.css}" rel="stylesheet" />
+  <link th:href="@{/plugins/simple-line-icons/css/simple-line-icons.css}" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+    type="text/css" />
+
+  <!-- Core plugin JavaScript-->
+  <link rel="stylesheet" th:href="@{/plugins/jquery-confirm/css/jquery-confirm.min.css}" />
+  <!-- Custom styles for this template -->
+  <link th:href="@{/common/css/landing_page/landing-page.css}" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/common/css/login.css}" />
+  <link rel="stylesheet" th:href="@{/common/css/common.css}" />
+  <style type="text/css">
+    .loader {
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      background: url("/images/loading.gif") 50% 50% no-repeat rgb(249, 249, 249);
+    }
+  </style>
+</span>
+
+<!-- Navigation -->
+<nav th:fragment="nav-top" class="navbar navbar-light bg-light static-top">
+  <div class="loader"></div>
+  <div class="container text-center" style="width: 100%;display:flex;
+    justify-content:center;">
+    <span style="font-size: large;color:gray;flex:1;
+     display: flex;
+     justify-content: center;">e-Travel Permit by Government Of
+      Assam.<br>(অসম চৰকাৰৰ দ্বাৰা আগবঢ়োৱা ভ্ৰমনৰ অনুমতি পত্ৰ)</span>
+    <span style="">
+      <a id="loginModal" class="btn btn-primary" style="color: white;"><span
+          class="fa fa-sign-in-alt"></span>&nbsp;&nbsp;Login</a>
+    </span>
+  </div>
+</nav>
+
+
+<!-- Footer -->
+<!-- <footer th:fragment="footer" class="footer bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+        <p class="text-muted small mb-4 mb-lg-0">
+          &copy; e-Travel Permit by Government Of Assam.<br />(অসম চৰকাৰৰ দ্বাৰা আগবঢ়োৱা ভ্ৰমনৰ অনুমতি পত্ৰ)<br />All
+          Rights
+          Reserved.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer> -->
+<footer th:fragment="footer" class="bg-light">
+  <div class="container text-center ">
+    <div class="row" style="display:inherit">
+      <div class="col-lg-12">
+        <p class="text-muted small mb-4 mb-lg-0">
+          © e-Travel Permit by Government Of Assam. (অসম চৰকাৰৰ দ্বাৰা আগবঢ়োৱা ভ্ৰমনৰ অনুমতি পত্ৰ)<br>All Rights
+          Reserved. (সৰ্বস্বত্ব সংৰক্ষিত)
+        </p>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+<span th:fragment="common-js">
+  <!-- Bootstrap core JavaScript -->
+  <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+  <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <!-- Core plugin JavaScript-->
+  <script th:src="@{/plugins/jquery-confirm/js/jquery-confirm.min.js}"></script>
+  <script>
+    $(document).ready(function () {
+      $(".loader").fadeOut("slow");
+    });
+  </script>
+</span>
+
+<div th:fragment="login-modal" id="myModal" class="modal fade">
+  <!-- Modal HTML -->
+  <div class="modal-dialog modal-login">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Official Login</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/login}" method="post" autocomplete="off">
+          <p class="text-center">
+            <b class="text-danger" id="errorMsg"></b>
+            <!-- <b th:if="${param.error[0] == 'INVALID CAPTCHA'}" class="text-danger">Captcha does not Match. Please
+              verify.</b> -->
+          </p>
+          <div class="form-group">
+            <i class="fa fa-user"></i>
+            <input type="text" name="username" class="form-control" placeholder="Username" required="required" />
+          </div>
+          <div class="form-group">
+            <i class="fa fa-lock"></i>
+            <input type="password" name="password" class="form-control" placeholder="Password" required="required" />
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <img id="captchaImgLogin" th:src="@{/genCaptcha.png}" class="form-control p-0" style="background: none;">
+              <!-- Reload Captcha -->
+              <div class="input-group-append">
+                <button onclick="refreshcatchaLogin();" id="captchaRefreshButLogin" type="button"
+                  class="btn btn-secondary text-center">
+                  <i class="fa fa-redo"></i>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reload&nbsp;&nbsp;&nbsp;&nbsp;
+                </button>
+              </div>
+            </div>
+            <input type="text" class="form-control" name="captcha" id="captchaLogin" autocomplete="off" required
+              placeholder="Enter the text shown">
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-block btn-lg" value="Login" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="#">Forgot Password?</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div th:fragment="register-modal" id="registerModal" class="modal fade">
+  <!-- Modal HTML -->
+  <div class="modal-dialog modal-register modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="card bg-light">
+          <span class="float-right pr-3">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              &times;
+            </button>
+          </span>
+          <article class="card-body mx-auto" style="max-width: 400px;">
+            <h4 class="card-title mt-3 text-center">Member Registration</h4>
+            <p class="text-center">Get started with your new account</p>
+            <!-- <p>
+                <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
+                <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via
+                  facebook</a>
+              </p> -->
+            <form th:action="@{/register}" method="POST" th:object="${register}">
+
+              <p th:if="${registerError}" class="text-center">
+                <b class="text-danger" th:text="${registerError}" id="errMsg"></b>
+              </p>
+
+              <div class="form-group input-group">
+                <span class="mandetory">*</span>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input th:field="*{name}" class="form-control" placeholder="Full name" type="text">
+
+              </div> <!-- form-group// -->
+              <span th:if="${#fields.hasErrors('name')}"
+                        th:errors="*{name}"
+                        class="error"
+                      >
+                    </span>
+                <div class="form-group input-group">
+                  <span class="mandetory">*</span>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                  </div>
+                  <input name="prefix" disabled="disabled" class="form-control" type="text" style="max-width: 60px;" value="+91-" readonly>
+                  <input th:field="*{mobile}" id="mobileReg"  class="form-control" placeholder="Mobile number" type="number">
+                  
+                </div> <!-- form-group// -->
+                <span th:if="${#fields.hasErrors('mobile')}"
+                  th:errors="*{mobile}"
+                  class="error"
+                >
+              </span>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+                </div> <!-- form-group// -->
+                <p class="divider-text">
+                  <span class="bg-light">OR</span>
+                </p>
+                <p class="text-center">Have an account? <a href="#" class="modal-toggle">Log In</a> </p>
+              </form>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

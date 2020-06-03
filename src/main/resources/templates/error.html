@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <span th:replace="fragments/unlogged_fragments :: head('e-TravelPermit')">
+    </span>
+    <span th:replace="fragments/unlogged_fragments :: common-css"></span>
+    <style>
+        header.masthead {
+            padding-top: 12rem;
+            padding-bottom: 12rem;
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- <nav th:replace="fragments/unlogged_fragments :: nav-top"></nav>
+     -->
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="loader" style="display: none;"></div>
+        <div class="container text-center" style="width: 100%;display:flex;
+    justify-content:center;">
+            <span style="font-size: large;color:gray;flex:1;
+     display: flex;
+     justify-content: center;">e-Travel Permit by Government Of
+                Assam.<br>(অসম চৰকাৰৰ দ্বাৰা আগবঢ়োৱা ভ্ৰমনৰ অনুমতি পত্ৰ)</span>
+        </div>
+    </nav>
+    <!-- Masthead -->
+    <header class="masthead text-white text-center" style="height: 100%;">
+        <div class="overlay"></div>
+        <div class="container" style="filter: none;-webkit-filter: none;">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+
+                </div>
+                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto text-center text-danger font-weight-bold">
+                    <h2>Something went wrong ! Please try again <br> অলপ অসুবিধা হৈছে আপুনি আকৌ এবাৰ চেষ্টা কৰক চোন ।
+                    </h2>
+                    <a href="#" id="goBack" onclick="window.history.back()">Go Back (উভটি যাওক)</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <footer th:replace="fragments/unlogged_fragments :: footer"></footer>
+
+    <span th:replace="fragments/unlogged_fragments :: common-js"></span>
+
+    <span th:replace="fragments/unlogged_fragments :: login-modal"></span>
+    <!-- <span th:replace="fragments/unlogged_fragments :: register-modal"></span> -->
+
+    <script>
+
+    </script>
+</body>
+
+</html>

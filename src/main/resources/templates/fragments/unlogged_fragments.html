@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
+  <meta id="ctx" th:src="@{/}" />
   <link rel="icon" type="image/ico" th:href="@{/images/favicon.ico}">
   <title>e-TravelPermit</title>
 </span>
@@ -23,6 +24,9 @@
 
   <!-- Core plugin JavaScript-->
   <link rel="stylesheet" th:href="@{/plugins/jquery-confirm/css/jquery-confirm.min.css}" />
+
+  <!-- Jquery UI -->
+  <link th:href="@{/plugins/jqueryUI/jquery-ui.min.css}" rel="stylesheet">
   <!-- Custom styles for this template -->
   <link th:href="@{/common/css/landing_page/landing-page.css}" rel="stylesheet" />
   <link rel="stylesheet" th:href="@{/common/css/login.css}" />
@@ -50,8 +54,8 @@
      justify-content: center;">e-Travel Permit by Government Of
       Assam.<br>(অসম চৰকাৰৰ দ্বাৰা আগবঢ়োৱা ভ্ৰমনৰ অনুমতি পত্ৰ)</span>
     <span style="">
-      <a id="loginModal" class="btn btn-primary" style="color: white;"><span
-          class="fa fa-sign-in-alt"></span>&nbsp;&nbsp;Login</a>
+      <a th:href="@{/}" class="btn btn-primary" style="color: white;"><span
+          class="fa fa-sign-in-alt"></span>&nbsp;&nbsp;Home</a>
     </span>
   </div>
 </nav>
@@ -92,6 +96,11 @@
   <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
   <!-- Core plugin JavaScript-->
   <script th:src="@{/plugins/jquery-confirm/js/jquery-confirm.min.js}"></script>
+  <!-- Jquery UI -->
+  <script th:src="@{/plugins/jqueryUI/jquery-ui.min.js}"></script>
+  <script>
+    var contextPath = $("#ctx").attr('src');
+  </script>
   <script>
     $(document).ready(function () {
       $(".loader").fadeOut("slow");

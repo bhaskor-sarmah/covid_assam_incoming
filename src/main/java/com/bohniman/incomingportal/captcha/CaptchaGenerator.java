@@ -13,6 +13,7 @@ import nl.captcha.backgrounds.GradiatedBackgroundProducer;
 import nl.captcha.backgrounds.TransparentBackgroundProducer;
 import nl.captcha.noise.CurvedLineNoiseProducer;
 import nl.captcha.noise.NoiseProducer;
+import nl.captcha.noise.StraightLineNoiseProducer;
 import nl.captcha.text.producer.DefaultTextProducer;
 import nl.captcha.text.producer.TextProducer;
 import nl.captcha.text.renderer.DefaultWordRenderer;
@@ -27,16 +28,31 @@ public class CaptchaGenerator implements InitializingBean {
 
     public Captcha createCaptcha(int width, int height) {
 
+        // List<Color> colors = new ArrayList<Color>();
+        // colors.add(Color.black);
+        // colors.add(Color.red);
+
+        // // List<Font> fonts = new ArrayList<Font>();
+        // // fonts.add(new Font("Comic Sans MS", Font.PLAIN, 40));
+
+        // return new Captcha.Builder(width,
+        // height).addBackground(backgroundProducer).addText(textProducer, wordRenderer)
+        // .addNoise(noiseProducer)
+        // .addBackground(new GradiatedBackgroundProducer(Color.LIGHT_GRAY,
+        // Color.LIGHT_GRAY)).addBorder().build();
+
         List<Color> colors = new ArrayList<Color>();
         colors.add(Color.black);
         colors.add(Color.red);
 
         // List<Font> fonts = new ArrayList<Font>();
         // fonts.add(new Font("Comic Sans MS", Font.PLAIN, 40));
+        List<Font> fonts = new ArrayList<Font>();
+        fonts.add(new Font("DejaVu Sans", Font.PLAIN, 40));
 
-        return new Captcha.Builder(width, height).addBackground(backgroundProducer).addText(textProducer, wordRenderer)
-                .addNoise(noiseProducer)
-                .addBackground(new GradiatedBackgroundProducer(Color.LIGHT_GRAY, Color.LIGHT_GRAY)).addBorder().build();
+        return new Captcha.Builder(170, 50).addText(new DefaultWordRenderer(colors, fonts))
+                .addNoise(new StraightLineNoiseProducer()).addNoise().addBackground(new GradiatedBackgroundProducer())
+                .addBorder().build();
     }
 
     @Override

@@ -9,12 +9,11 @@
 
 <body id="page-top">
   <div id="wrapper">
-    <span th:replace="fragments/citizen_fragments :: side-navbar('','')"></span>
+    <span th:replace="fragments/citizen_fragments :: side-navbar('home','')"></span>
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
         <span th:replace="fragments/citizen_fragments :: top-navbar"></span>
         <div class="container-fluid">
-          <!-- <span th:replace="fragments/citizen_fragments :: page-heading"></span> -->
           <div class="row">
             <div class="col-xl-6 col-md-6 mb-4">
               <div class="card border-left-info shadow h-100 py-2">
@@ -23,10 +22,10 @@
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                          New Application Form (নতুন আবেদন পত্র)
+                          New Application Form
                         </div>
                         <div class="text-xs font-weight-bold text-gray-800">
-                          Click Here (ইয়াত ক্লিক কৰক)
+                          Click Here
                         </div>
                       </div>
                       <div class="col-auto">
@@ -38,16 +37,16 @@
               </div>
             </div>
             <div class="col-xl-6 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body count-card">
-                  <a th:href="@{/citizen/updateRequest}" style="text-decoration: none;">
+                  <a th:href="@{/citizen/getApplications}" style="text-decoration: none;">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                          Incomplete Draft Application (আধৰুৱা হৈ থকা আবেদন পত্ৰ)
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                          View and Download Travel Permit in PDF
                         </div>
                         <div class="text-xs font-weight-bold text-gray-800">
-                          Click Here (ইয়াত ক্লিক কৰক)
+                          Click Here
                         </div>
                       </div>
                       <div class="col-auto">
@@ -58,87 +57,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-xl-6 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body count-card">
-                  <a th:href="@{/citizen/statusRequest}" style="text-decoration: none;">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                          View Application Status (আবেদন পত্ৰৰ স্থিতি)
-                        </div>
-                        <div class="text-xs font-weight-bold text-gray-800">
-                          Click Here (ইয়াত ক্লিক কৰক)
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-edit fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body count-card">
-                  <a th:href="@{/citizen/approvedRequest}" style="text-decoration: none;">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                          Approved Request
-                        </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                          <span th:if="${approvedRequest}" th:text="${approvedRequest}">
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-times-circle fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div> -->
-            <!-- <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-danger shadow h-100 py-2">
-                <div class="card-body count-card">
-                  <a th:href="@{/citizen/rejectedRequest}" style="text-decoration: none;">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                          Rejected Request
-                        </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                          <span th:if="${rejectedRequest}" th:text="${rejectedRequest}">
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-times-circle fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div> -->
           </div>
-          <!-- <div class="row">
-            <div class="col-12">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Web Portal Instructions</h6>
-                </div>
-                <div class="card-body">
-                  <p>Instruction 1</p>
-                  <p>Instruction 2</p>
-                  <p>Instruction 3</p>
-                  <p>Instruction 4</p>
-                  <p>Instruction 5</p>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
       <span th:replace="fragments/citizen_fragments :: footer"></span>

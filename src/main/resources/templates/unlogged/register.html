@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
+<head>
+  <span th:replace="fragments/unlogged_fragments :: head('e-TravelPermit')">
+  </span>
+  <span th:replace="fragments/unlogged_fragments :: common-css"></span>
+  <style>
+    .form-error {
+      color: red;
+    }
+
+    .error {
+      width: 100%;
+    }
+
+    label {
+      font-weight: bold;
+      color: rgb(61, 60, 60);
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <nav th:replace="fragments/unlogged_fragments :: nav-top"></nav>
+  <div id="wrapper" class="container" style="padding-top: 15px;">
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card shadow mb-4">
+                <form autocomplete="off" th:action="@{/saveRequest}" method="POST" th:object="${citizen}"
+                  id="form-new-request">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                      Enter your journey details below
+                    </h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Name
+                          </label>
+                          <input data-validation="required" th:field="*{name}" type="text" id="name"
+                            placeholder="Enter Name" class="form-control" />
+                          <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Mobile
+                          </label>
+                          <input 
+                            th:field="*{mobile}" type="text" id="mobile" placeholder="Enter Mobile"
+                            class="form-control" readonly="readonly"/>
+                          <span th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Flight Number
+                          </label>
+                          <input 
+                            th:field="*{flightNo}" data-validation="required" type="text" id="flightNo" placeholder="Enter Flight No"
+                            class="form-control"/>
+                          <span th:if="${#fields.hasErrors('flightNo')}" th:errors="*{flightNo}" class="error"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>PNR Number
+                          </label>
+                          <input 
+                            th:field="*{pnrNumber}" data-validation="required" type="text" id="dateOfTravel" placeholder="Enter PNR Number"
+                            class="form-control"/>
+                          <span th:if="${#fields.hasErrors('pnrNumber')}" th:errors="*{pnrNumber}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Journey Date
+                          </label>
+                          <input 
+                            th:field="*{dateOfTravel}" data-validation="required" type="text" id="dateOfTravel" placeholder="Enter Journey Date"
+                            class="form-control"/>
+                          <span th:if="${#fields.hasErrors('dateOfTravel')}" th:errors="*{dateOfTravel}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Destination District
+                          </label>
+                          <select data-validation="required"
+                                th:field="*{district}"
+                                name="district"
+                                id="district"
+                                class="form-control"
+                                >
+                            <option value="" selected="selected"
+                                    >--SELECT--</option
+                            >
+                            <option
+                                th:each="dist : ${distList}"
+                                th:value="${dist.districtCode}"
+                                th:text="${dist.districtName}"
+                                ></option>
+                        </select>
+                          <span th:if="${#fields.hasErrors('district')}" th:errors="*{district}" class="error"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-xl-4 col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="justification">
+                          <span class="mandetory">*</span>Pincode
+                        </label>
+                        <input 
+                        th:field="*{pincode}" data-validation="required number length" data-validation-length="6" type="text" id="pincode" placeholder="Enter Pincode"
+                        class="form-control"/>
+                        <span
+                            th:if="${#fields.hasErrors('pincode')}"
+                            th:errors="*{pincode}"
+                            class="error"
+                            ></span>
+                    </div>
+                  </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="justification">
+                              Address
+                          </label>
+                          <textarea
+                              th:field="*{address}"
+                              name="address"
+                              id="address"
+                              class="form-control"
+                              ></textarea>
+                          <span
+                              th:if="${#fields.hasErrors('address')}"
+                              th:errors="*{address}"
+                              class="error"
+                              ></span>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-center">
+                    <input type="hidden" id="span-validation-check" value="true">
+                    <input type="submit" id="btn-form-final-submit" class="btn btn-success" name="submit"
+                      value="Submit" />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span th:replace="fragments/unlogged_fragments :: footer"></span>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <span th:replace="fragments/unlogged_fragments :: common-js"></span>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+  <script>
+    $(function () {
+      $.validate({
+        form: '#form-new-request',
+        modules: 'date'
+      });
+      $(".loader").fadeOut("slow");
+      $('#form-new-request')
+        .on('beforeValidation', '.form-control', function (value, lang, config) {
+          let ifValidationRequired = $('#span-validation-check').val();
+          if (ifValidationRequired === 'true') {
+            $(this).removeAttr('data-validation-skipped');
+          } else {
+            $(this).attr('data-validation-skipped', 1);
+          }
+        })
+        .on('validation', function (evt, valid) {
+          console.log(evt);
+        });
+      $.formUtils.addValidator({
+        name: 'to_sub_district_validator',
+        validatorFunction: function (value, $el, config, language, $form) {
+
+          const toDistrict = $("#toDistrict").val();
+          if (toDistrict === '315' || toDistrict === '482' || toDistrict === '483') {
+            return true;
+          } else {
+            if (value == null || value == '') {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        },
+        errorMessage: 'This field is required',
+        errorMessageKey: 'invalidToSubDistrict'
+      });
+
+      $.formUtils.addValidator({
+        name: 'custom_arrangement_validation',
+        validatorFunction: function (value, $el, config, language, $form) {
+
+          const arrangementType = $("#arrangementType").val();
+          if (arrangementType === "01") {
+            return true;
+          }
+        },
+        errorMessage: 'This field is required',
+        errorMessageKey: 'invalidArrangement'
+      });
+
+      $.formUtils.addValidator({
+        name: 'from_sub_district_validator',
+        validatorFunction: function (value, $el, config, language, $form) {
+
+          const fromDistrict = $("#fromDistrict").val();
+          if (fromDistrict === '315' || fromDistrict === '482' || fromDistrict === '483') {
+            return true;
+          } else {
+            if (value == null || value == '') {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        },
+        errorMessage: 'This field is required',
+        errorMessageKey: 'invalidFromSubDistrict'
+      });
+    });
+  </script>
+  <script th:if="${errMsg}" th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${errMsg}]]*/ "";
+    /*]]>*/
+    $.alert({
+      title: 'Error!',
+      content: msg,
+      type: 'red',
+      typeAnimated: true
+    });
+  </script>
+</body>
+
+</html>

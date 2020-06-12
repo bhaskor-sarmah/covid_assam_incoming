@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
+<head>
+  <span th:replace="fragments/citizen_fragments :: head('e-TravelPermit')">
+  </span>
+  <span th:replace="fragments/citizen_fragments :: common-css"></span>
+  <style>
+    .form-error {
+      color: red;
+    }
+
+    .error {
+      width: 100%;
+    }
+
+    label {
+      font-weight: bold;
+      color: rgb(61, 60, 60);
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <span th:replace="fragments/citizen_fragments :: side-navbar('home','')"></span>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <span th:replace="fragments/citizen_fragments :: top-navbar"></span>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card shadow mb-4">
+                <form autocomplete="off" th:action="@{/citizen/saveRequest}" method="POST" th:object="${journey}"
+                  id="form-new-request" enctype="multipart/form-data">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                      Enter your journey details below
+                    </h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Name
+                          </label>
+                          <input data-validation="required" th:field="*{name}" type="text" id="name"
+                            placeholder="Enter Name" class="form-control" />
+                          <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Flight Number
+                          </label>
+                          <input 
+                            th:field="*{flightNo}" data-validation="required" type="text" id="flightNo" placeholder="Enter Flight No"
+                            class="form-control"/>
+                          <span th:if="${#fields.hasErrors('flightNo')}" th:errors="*{flightNo}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>PNR Number
+                          </label>
+                          <input 
+                            th:field="*{pnrNumber}" data-validation="required" type="text" id="pnrNumber" placeholder="Enter PNR Number"
+                            class="form-control"/>
+                          <span th:if="${#fields.hasErrors('pnrNumber')}" th:errors="*{pnrNumber}" class="error"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Journey Date
+                          </label>
+                          <input 
+                            th:field="*{dateOfTravel}" data-validation="required" type="text" id="dateOfTravel" placeholder="Select Journey Date"
+                            class="form-control" readonly="readonly">
+                          <span th:if="${#fields.hasErrors('dateOfTravel')}" th:errors="*{dateOfTravel}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Destination District
+                          </label>
+                          <select data-validation="required"
+                                th:field="*{district}"
+                                name="district"
+                                id="district"
+                                class="form-control"
+                                onchange="getScreeningCenter(this.value);">
+                            <option value="" selected="selected">--SELECT--</option>
+                            <option
+                                th:each="dist : ${distList}"
+                                th:value="${dist.districtCode}"
+                                th:text="${dist.districtName}"
+                                ></option>
+                        </select>
+                          <span th:if="${#fields.hasErrors('district')}" th:errors="*{district}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="justification">
+                            Destination Pincode
+                          </label>
+                          <input 
+                          th:field="*{pincode}"  data-validation="pin_code_validator" type="text" id="pincode" placeholder="Enter Pincode"
+                          class="form-control" maxlength="6"
+                          onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"/>
+                          <span
+                              th:if="${#fields.hasErrors('pincode')}"
+                              th:errors="*{pincode}"
+                              class="error"
+                              ></span>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                    
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="justification">
+                              Destination Address
+                          </label>
+                          <textarea
+                              th:field="*{address}"
+                              name="address"
+                              id="address"
+                              class="form-control"
+                              ></textarea>
+                          <span
+                              th:if="${#fields.hasErrors('address')}"
+                              th:errors="*{address}"
+                              class="error"
+                              ></span>
+                      </div>
+                    </div>
+
+                    <div class="col-xl-4 col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="justification">
+                            Screening Center
+                        </label>
+                        <ol id="screening-center-data">
+                          Select district to view the screening centers.
+                        </ol>
+                    </div>
+                    </div>
+
+                    <div class="col-xl-4 col-md-6 mb-4">
+                    </div>
+
+                    <div class="col-xl-4 col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="justification">
+                            Attach your ID proof document
+                        </label>
+                        <input type="file" th:field="*{document}" class="form-control">
+                        <span
+                          th:if="${#fields.hasErrors('document')}"
+                          th:errors="*{document}"
+                          class="error"
+                          ></span>
+                    </div>
+                    </div>
+
+                    <div class="col-xl-4 col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="justification">
+                            Enter your ID proof document number
+                        </label>
+                        <input type="text" th:field="*{documentNumber}" data-validation="required" class="form-control">
+                        <span
+                          th:if="${#fields.hasErrors('document')}"
+                          th:errors="*{document}"
+                          class="error"
+                          ></span>
+                    </div>
+                    </div>
+
+                    <div class="col-xl-4 col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="justification">
+                            ID proof document type
+                        </label>
+                        <select th:field="*{documentType}" data-validation="required" class="form-control">
+                          <option value="" selected="selected">--SELECT--</option>
+                          <option value="DRIVING LICENCE">DRIVING LICENCE</option>
+                          <option value="PASSPORT">PASSPORT</option>
+                          <option value="ADHAR">ADHAR</option>
+                          <option value="ADHAR">VOTER ID</option>
+                        </select>
+                        <span
+                          th:if="${#fields.hasErrors('documentType')}"
+                          th:errors="*{document}"
+                          class="error"
+                          ></span>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-center">
+                    <input type="hidden" id="span-validation-check" value="true">
+                    <input type="submit" id="btn-form-final-submit" class="btn btn-success" name="submit"
+                      value="Submit" />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span th:replace="fragments/citizen_fragments :: footer"></span>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <span th:replace="fragments/citizen_fragments :: common-js('travelPermit')"></span>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+  <script>
+    $(function () {
+      $("#dateOfTravel").datepicker({
+        minDate: '+0d',
+        dateFormat: 'dd/mm/yy',
+        changeYear: false,
+        changeMonth: false
+      });
+      $.validate({
+        form: '#form-new-request',
+        modules: 'date'
+      });
+      $(".loader").fadeOut("slow");
+      $('#form-new-request')
+        .on('beforeValidation', '.form-control', function (value, lang, config) {
+          let ifValidationRequired = $('#span-validation-check').val();
+          if (ifValidationRequired === 'true') {
+            $(this).removeAttr('data-validation-skipped');
+          } else {
+            $(this).attr('data-validation-skipped', 1);
+          }
+        })
+        .on('validation', function (evt, valid) {
+          console.log(evt);
+        });
+      $.formUtils.addValidator({
+        name: 'to_sub_district_validator',
+        validatorFunction: function (value, $el, config, language, $form) {
+
+          const toDistrict = $("#toDistrict").val();
+          if (toDistrict === '315' || toDistrict === '482' || toDistrict === '483') {
+            return true;
+          } else {
+            if (value == null || value == '') {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        },
+        errorMessage: 'This field is required',
+        errorMessageKey: 'invalidToSubDistrict'
+      });
+
+      $.formUtils.addValidator({
+        name: 'custom_arrangement_validation',
+        validatorFunction: function (value, $el, config, language, $form) {
+
+          const arrangementType = $("#arrangementType").val();
+          if (arrangementType === "01") {
+            return true;
+          }
+        },
+        errorMessage: 'This field is required',
+        errorMessageKey: 'invalidArrangement'
+      });
+
+      $.formUtils.addValidator({
+        name: 'pin_code_validator',
+        validatorFunction: function (value, $el, config, language, $form) {
+
+          if (value == "") {
+            return true;
+          } else if (!isNaN(value) && value.length == 6) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        errorMessage: 'Invalid Pin Code',
+        errorMessageKey: 'pinCodeError'
+      });
+
+      $.formUtils.addValidator({
+        name: 'from_sub_district_validator',
+        validatorFunction: function (value, $el, config, language, $form) {
+
+          const fromDistrict = $("#fromDistrict").val();
+          if (fromDistrict === '315' || fromDistrict === '482' || fromDistrict === '483') {
+            return true;
+          } else {
+            if (value == null || value == '') {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        },
+        errorMessage: 'This field is required',
+        errorMessageKey: 'invalidFromSubDistrict'
+      });
+    });
+  </script>
+  <script th:if="${errMsg}" th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${errMsg}]]*/ "";
+    /*]]>*/
+    $.alert({
+      title: 'Error!',
+      content: msg,
+      type: 'red',
+      typeAnimated: true
+    });
+  </script>
+  <script th:if="${msgErr}" th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msgErr}]]*/ "";
+    /*]]>*/
+    $.alert({
+      title: 'Error!',
+      content: msg,
+      type: 'red',
+      typeAnimated: true
+    });
+  </script>
+
+  <script>
+    function getScreeningCenter(districtCode){
+      $("#screening-center-data").html("");
+      $.ajax({
+                type: "GET",
+                url: contextPath + "citizen/get-screening-center/" + districtCode,
+                timeout: 600000,
+               
+                success: function (response) {
+                   console.log(response);
+                   let sl= "";
+                   $.each(response,(key,val)=>{
+                     sl+=`<li>${val.location}</li>`;
+                   });
+                   $("#screening-center-data").html(sl);
+                },
+                error: function (e) {
+                    console.log(e);
+                },
+               
+            });
+    } 
+  </script>
+</body>
+
+</html>

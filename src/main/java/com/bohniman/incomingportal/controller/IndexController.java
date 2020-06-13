@@ -75,26 +75,10 @@ public class IndexController {
 			mv.addObject("msgErr", "Invalid Captcha ! Please try again.");
 			return mv;
 		}
-		// mv = new ModelAndView("redirect:/ResendOtp");
+		mv = new ModelAndView("redirect:/ResendOtp");
 		session.setAttribute("citizen", citizen);
 		session.setAttribute("mobile", mobileNo);
-
-		Citizen newCitizen = citizenService.getByMobileNo(citizen.getMobile());
-		if (newCitizen != null) {
-			citizen = newCitizen;
-		}
-		citizen.setIsOtpValidated(true);
-		citizen = citizenService.saveCitizen(citizen);
-		session.setAttribute("citizen", citizen);
-		if (citizen != null) {
-			mv = new ModelAndView("redirect:/citizen/home");
-			return mv;
-		} else {
-			mv = new ModelAndView("unlogged/index");
-			mv.addObject("msgErr", "Registration Error ! Please try again.");
-			return mv;
-		}
-
+		return mv;
 	}
 
 	@GetMapping(value = { "/ResendOtp" })
@@ -113,45 +97,44 @@ public class IndexController {
 		}
 	}
 
-	// @PostMapping(value = { "/otp" })
-	// public ModelAndView getOtp(HttpSession session, ModelAndView mv,
-	// @RequestParam("otp") String otp,
-	// @RequestParam("mobile") String mobile) {
-	// if (session.getAttribute("citizen") == null) {
-	// mv = new ModelAndView("unlogged/index");
-	// mv.addObject("msgErr", "Some Error has Ocurred ! Please try again");
-	// return mv;
-	// }
-	// Citizen citizen = (Citizen) session.getAttribute("citizen");
-	// if (citizen == null) {
-	// mv = new ModelAndView("unlogged/index");
-	// mv.addObject("msgErr", "Some Error has Ocurred ! Please try again");
-	// return mv;
-	// }
-	// if (citizen.getOtp().equals(otp) && citizen.getMobile().equals(mobile)) {
-	// Citizen newCitizen = citizenService.getByMobileNo(citizen.getMobile());
-	// if (newCitizen != null) {
-	// newCitizen.setOtp(otp);
-	// citizen = newCitizen;
-	// }
-	// citizen.setIsOtpValidated(true);
-	// citizen = citizenService.saveCitizen(citizen);
-	// session.setAttribute("citizen", citizen);
-	// if (citizen != null) {
-	// mv = new ModelAndView("redirect:/citizen/home");
-	// return mv;
-	// } else {
-	// mv = new ModelAndView("unlogged/index");
-	// mv.addObject("msgErr", "Registration Error ! Please try again.");
-	// return mv;
-	// }
-	// } else {
-	// mv = new ModelAndView("unlogged/otp");
-	// mv.addObject("msgErr", "Invalid Otp ! Please try again.");
-	// mv.addObject("mobile", citizen.getMobile());
-	// return mv;
-	// }
-	// }
+	@PostMapping(value = { "/otp" })
+	public ModelAndView getOtp(HttpSession session, ModelAndView mv, @RequestParam("otp") String otp,
+			@RequestParam("mobile") String mobile) {
+		if (session.getAttribute("citizen") == null) {
+			mv = new ModelAndView("unlogged/index");
+			mv.addObject("msgErr", "Some Error has Ocurred ! Please try again");
+			return mv;
+		}
+		Citizen citizen = (Citizen) session.getAttribute("citizen");
+		if (citizen == null) {
+			mv = new ModelAndView("unlogged/index");
+			mv.addObject("msgErr", "Some Error has Ocurred ! Please try again");
+			return mv;
+		}
+		if (citizen.getOtp().equals(otp) && citizen.getMobile().equals(mobile)) {
+			Citizen newCitizen = citizenService.getByMobileNo(citizen.getMobile());
+			if (newCitizen != null) {
+				newCitizen.setOtp(otp);
+				citizen = newCitizen;
+			}
+			citizen.setIsOtpValidated(true);
+			citizen = citizenService.saveCitizen(citizen);
+			session.setAttribute("citizen", citizen);
+			if (citizen != null) {
+				mv = new ModelAndView("redirect:/citizen/home");
+				return mv;
+			} else {
+				mv = new ModelAndView("unlogged/index");
+				mv.addObject("msgErr", "Registration Error ! Please try again.");
+				return mv;
+			}
+		} else {
+			mv = new ModelAndView("unlogged/otp");
+			mv.addObject("msgErr", "Invalid Otp ! Please try again.");
+			mv.addObject("mobile", citizen.getMobile());
+			return mv;
+		}
+	}
 
 	@GetMapping(value = { "/access-denied" })
 	public ModelAndView accessDenied(ModelAndView mv) {

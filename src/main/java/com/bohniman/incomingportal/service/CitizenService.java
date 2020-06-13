@@ -4,18 +4,17 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import com.bohniman.incomingportal.model.Citizen;
 import com.bohniman.incomingportal.model.Journey;
+import com.bohniman.incomingportal.model.MasterThana;
 import com.bohniman.incomingportal.model.ScreeningLocation;
 import com.bohniman.incomingportal.repository.CitizenRepository;
 import com.bohniman.incomingportal.repository.JourneyRepository;
+import com.bohniman.incomingportal.repository.MasterThanaRepository;
 import com.bohniman.incomingportal.repository.ScreeningLocationRepository;
 import com.bohniman.incomingportal.utils.PdfPass;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,6 +31,9 @@ public class CitizenService {
 
     @Autowired
     ScreeningLocationRepository locationRepository;
+
+    @Autowired
+    MasterThanaRepository masterThanaRepository;
 
     public Citizen saveCitizen(Citizen citizen) {
         return citizenRepository.save(citizen);
@@ -77,5 +79,13 @@ public class CitizenService {
     public List<ScreeningLocation> getScreeningCenter(String districtCode) {
         List<ScreeningLocation> locations = locationRepository.findByDistrict_districtCode(districtCode);
         return locations;
+    }
+
+    public List<MasterThana> getThanaList(String districtCode) {
+        List<MasterThana> thanaList = masterThanaRepository.findByDistrictCodeOrderByThanaName(districtCode);
+        thanaList.forEach(thana -> {
+            System.out.println(thana);
+        });
+        return thanaList;
     }
 }

@@ -86,8 +86,7 @@ public class IndexController {
 		Citizen citizen = (Citizen) session.getAttribute("citizen");
 		if (commonService.fireOtp(citizen, session)) {
 			mv = new ModelAndView("unlogged/otp");
-			mv.addObject("msg",
-					"OTP sent successfully ! Please enter the OTP to continue. " + session.getAttribute("otp"));
+			mv.addObject("msg", "OTP sent successfully ! Please enter the OTP to continue.");
 			mv.addObject("mobile", citizen.getMobile());
 			return mv;
 		} else {

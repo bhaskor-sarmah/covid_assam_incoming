@@ -1,8 +1,16 @@
 package com.bohniman.incomingportal.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -10,7 +18,10 @@ import com.bohniman.incomingportal.model.Citizen;
 import com.bohniman.incomingportal.model.Journey;
 import com.bohniman.incomingportal.service.CitizenService;
 import com.bohniman.incomingportal.service.CommonService;
+import com.bohniman.incomingportal.utils.AppStaticData;
+import com.fasterxml.uuid.Generators;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +38,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -75,7 +87,8 @@ public class CitizenController {
 
     @PostMapping(value = { "/saveRequest" })
     public ModelAndView postNewRequest(HttpSession session, ModelAndView mv,
-            @Valid @ModelAttribute("journey") Journey journey, BindingResult result) {
+            @Valid @ModelAttribute("journey") Journey journey, BindingResult result,
+            @RequestParam("document") MultipartFile file) {
         if (session.getAttribute("citizen") == null) {
             mv = new ModelAndView("unlogged/index");
             mv.addObject("msgErr", "Some error ocurred ! Please try again.");
@@ -88,20 +101,45 @@ public class CitizenController {
             mv.addObject("msgErr", "Some error ocurred ! Please try again.");
             return mv;
         }
+        /********************** SAVING THE FILE *******************/
+        String path = "";
+        try {
+            UUID uuid = Generators.timeBasedGenerator().generate();
+            System.out.println(file.getOriginalFilename());
+            String uploadFileName = file.getOriginalFilename();
+            String extention = uploadFileName.substring(uploadFileName.lastIndexOf(".") + 1);
+            String fileName = uuid.toString() + "." + extention;
+            String filePath = AppStaticData.UPLOAD_URL_PREFIX + fileName;
+            byte[] bytes = file.getBytes();
+            if (extention.equalsIgnoreCase("pdf")) {
+                // Saving PDF
+                OutputStream out = new FileOutputStream(filePath);
+                out.write(bytes);
+                out.close();
+            } else {
+                // Saving Image
+                InputStream in = new ByteArrayInputStream(bytes);
+                BufferedImage bImageFromConvert = ImageIO.read(in);
+                ImageIO.write(bImageFromConvert, extention, new File(filePath));
+            }
+            path = filePath;
+        } catch (Exception e) {
+            mv = new ModelAndView("citizen/register");
+            mv.addObject("journey", journey);
+            mv.addObject("distList", commonService.getDistrictByState("18"));
+            mv.addObject("msgErr", "Error Upload File ! Please try again.");
+            return mv;
+        }
+        /********************** DONE SAVING FILE *******************/
+
         Citizen citizen = (Citizen) session.getAttribute("citizen");
         citizen = citizenService.getByMobileNo(citizen.getMobile());
         if (citizen != null) {
             journey.setCitizen(citizen);
+            journey.setDocPath(path);
             List<Journey> old = citizenService.findJourney(journey);
             if (old == null || old.isEmpty()) {
                 if (citizenService.saveJourney(journey) != null) {
-                    // mv = new ModelAndView("citizen/index");
-                    // if (citizen != null) {
-                    // mv.addObject("citizen", citizen);
-                    // }
-                    // mv.addObject("successMsg", "New Application Submitted Successfully !");
-                    // return mv;
-
                     mv = new ModelAndView("citizen/report");
                     mv.addObject("journeyList", citizenService.getAllJourneyList(citizen));
                     mv.addObject("successMsg", "New Application Submitted Successfully !");
@@ -188,6 +226,12 @@ public class CitizenController {
     @GetMapping(value = { "/get-screening-center/{districtCode}" })
     public ResponseEntity<Object> getScreeningCenter(@PathVariable("districtCode") String districtCode) {
         return ResponseEntity.ok(citizenService.getScreeningCenter(districtCode));
+    }
+
+    @ResponseBody
+    @GetMapping(value = { "/get-thana-list/{districtCode}" })
+    public ResponseEntity<Object> getThanaList(@PathVariable("districtCode") String districtCode) {
+        return ResponseEntity.ok(citizenService.getThanaList(districtCode));
     }
 
 }

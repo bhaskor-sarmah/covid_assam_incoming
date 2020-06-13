@@ -65,12 +65,19 @@ public class Journey extends Auditable {
 
     private String address;
 
+    private String flat_house_no;
+    private String street;
+    private String thana;
+    private String landmark;
+
     private String pincode;
 
     private boolean isArrivedAtAirport;
 
-    @Lob
-    private byte[] document;
+    // @Lob
+    // private byte[] document;
+
+    private String docPath;
 
     private String documentNumber;
     private String documentType;

@@ -70,6 +70,34 @@
                       <div class="col-xl-4 col-md-6 mb-4">
                         <div class="form-group">
                           <label for="purpose">
+                            <span class="mandetory">*</span>Age
+                          </label>
+                          <input data-validation="age_value_validator" th:field="*{age}" type="number" id="age"
+                            placeholder="Enter Age" class="form-control" />
+                          <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
+                            <span class="mandetory">*</span>Gender
+                          </label>
+                          <select data-validation="required"
+                                th:field="*{gender}"
+                                name="gender"
+                                id="gender"
+                                class="form-control">
+                            <option value="" selected="selected">--SELECT--</option>
+                            <option value="MALE" >MALE</option>
+                            <option value="FEMALE" >FEMALE</option>
+                            <option value="OTHER" >OTHER</option>
+                            </select>
+                          <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="purpose">
                             <span class="mandetory">*</span>Flight Number
                           </label>
                           <input 
@@ -89,8 +117,6 @@
                           <span th:if="${#fields.hasErrors('pnrNumber')}" th:errors="*{pnrNumber}" class="error"></span>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
                       <div class="col-xl-4 col-md-6 mb-4">
                         <div class="form-group">
                           <label for="purpose">
@@ -104,7 +130,7 @@
                       </div>
                     </div>
                     <div class="divider">
-                      <label>Destination Address Details</label>
+                      <label>Destination Address Details in Assam</label>
                     </div>
                     <div class="row">
                       <div class="col-xl-4 col-md-6 mb-4">
@@ -156,7 +182,7 @@
                       <div class="col-xl-4 col-md-6 mb-4">
                         <div class="form-group">
                           <label for="justification">
-                            Destination Pincode
+                            Destination Pincode in Assam
                           </label>
                           <input 
                           th:field="*{pincode}"  data-validation="pin_code_validator" type="text" id="pincode" placeholder="Enter Pincode"
@@ -172,7 +198,7 @@
                       <div class="col-xl-4 col-md-6 mb-4">
                         <div class="form-group">
                           <label for="justification">
-                            <span class="mandetory">*</span>Flat/House No.
+                            <span class="mandetory">*</span>Flat/House No. in Assam
                           </label>
                           <input data-validation="required" th:field="*{flat_house_no}" type="text" id="flat_house_no"
                             placeholder="Enter Flat/House No" class="form-control" />
@@ -186,7 +212,7 @@
                       <div class="col-xl-4 col-md-6 mb-4">
                         <div class="form-group">
                           <label for="justification">
-                            <span class="mandetory">*</span>Street/Road Name
+                            <span class="mandetory">*</span>Street/Road Name in Assam
                           </label>
                           <input data-validation="required" th:field="*{street}" type="text" id="street"
                             placeholder="Enter Street/Road Name" class="form-control" />
@@ -202,7 +228,7 @@
                           <label for="justification">
                               Landmark
                           </label>
-                          <input data-validation="required" th:field="*{landmark}" type="text" id="landmark"
+                          <input th:field="*{landmark}" type="text" id="landmark"
                             placeholder="Enter Landmark" class="form-control" />
                           <span
                               th:if="${#fields.hasErrors('landmark')}"
@@ -290,9 +316,9 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
   <script>
     $(function () {
-
       function hasExtension(inputID, exts) {
         var fileName = document.getElementById(inputID).value;
+        fileName = fileName.toLowerCase();
         return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$')).test(fileName);
       }
       $("#document").change(function () {
@@ -305,10 +331,10 @@
           });
           $("#document").val('');
         }
-        if ((this.files[0].size) > 1048576) {
+        if ((this.files[0].size) > (1048576 * 5)) {
           $.alert({
             title: 'Error!',
-            content: "File Size upto 1 MB allowed for upload !",
+            content: "File Size upto 5 MB allowed for upload !",
             type: 'red',
             typeAnimated: true
           });
@@ -374,7 +400,6 @@
       $.formUtils.addValidator({
         name: 'pin_code_validator',
         validatorFunction: function (value, $el, config, language, $form) {
-
           if (value == "") {
             return true;
           } else if (!isNaN(value) && value.length == 6) {
@@ -385,6 +410,22 @@
         },
         errorMessage: 'Invalid Pin Code',
         errorMessageKey: 'pinCodeError'
+      });
+
+      $.formUtils.addValidator({
+        name: 'age_value_validator',
+        validatorFunction: function (value, $el, config, language, $form) {
+          // alert(value);
+          if (value == "") {
+            return false;
+          } else if (value < 0 || value > 120) {
+            return false;
+          } else {
+            return true;
+          }
+        },
+        errorMessage: 'Invalid Age !',
+        errorMessageKey: 'ageError'
       });
 
       $.formUtils.addValidator({

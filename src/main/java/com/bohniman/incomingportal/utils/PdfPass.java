@@ -124,13 +124,12 @@ public class PdfPass {
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
 
-                                cell = new PdfPCell(new Paragraph("DATE OF TRAVEL", f));
+                                cell = new PdfPCell(new Paragraph("AGE", f));
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
 
-                                DateFormat Date = DateFormat.getDateInstance();
-                                cell = new PdfPCell(new Paragraph(" : " + Date.format(journey.getDateOfTravel()), f));
+                                cell = new PdfPCell(new Paragraph(" : " + journey.getAge(), f));
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
@@ -142,6 +141,26 @@ public class PdfPass {
                                 cell = new PdfPCell(new Paragraph(" : " + journey.getName(), f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
+                                table2.addCell(cell);
+
+                                cell = new PdfPCell(new Paragraph("GENDER", f));
+                                cell.setBorder(0);
+                                cell.setPaddingTop(10);
+                                table2.addCell(cell);
+                                cell = new PdfPCell(new Paragraph(" : " + journey.getGender(), f));
+                                cell.setPaddingTop(10);
+                                cell.setBorder(0);
+                                table2.addCell(cell);
+
+                                cell = new PdfPCell(new Paragraph("DATE OF TRAVEL", f));
+                                cell.setBorder(0);
+                                cell.setPaddingTop(10);
+                                table2.addCell(cell);
+
+                                DateFormat Date = DateFormat.getDateInstance();
+                                cell = new PdfPCell(new Paragraph(" : " + Date.format(journey.getDateOfTravel()), f));
+                                cell.setBorder(0);
+                                cell.setPaddingTop(10);
                                 table2.addCell(cell);
 
                                 cell = new PdfPCell(new Paragraph("FLIGHT NO", f));

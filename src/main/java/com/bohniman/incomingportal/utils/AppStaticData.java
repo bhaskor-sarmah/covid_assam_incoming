@@ -45,7 +45,7 @@ public class AppStaticData {
     public static final String ARRANGEMENT_GOVT = "Requesting Government for travel assistance";
     public static final String ARRANGEMENT_PRIVATE = "Own arrangement";
 
-    // public static final String UPLOAD_URL_PREFIX = "//home//ubuntu//uploads//";
-    public static final String UPLOAD_URL_PREFIX = "E://UPLOAD_IMAGES//";
+    public static final String UPLOAD_URL_PREFIX = "/home/ubuntu/uploads/visitassam/";
+    // public static final String UPLOAD_URL_PREFIX = "E://UPLOAD_IMAGES//";
 
 }

@@ -36,6 +36,12 @@ public class Journey extends Auditable {
     @NotEmpty(message = "Name is required")
     private String name;
 
+    @NotEmpty(message = "Age is required")
+    private Long age;
+
+    @NotEmpty(message = "Gender is required")
+    private String gender;
+
     @NotEmpty(message = "Flight Number is required")
     private String flightNo;
 

@@ -72,4 +72,5 @@ public class IncomingPortalApplication extends SpringBootServletInitializer {
 		connector.setRedirectPort(443);
 		return connector;
 	}
+
 }

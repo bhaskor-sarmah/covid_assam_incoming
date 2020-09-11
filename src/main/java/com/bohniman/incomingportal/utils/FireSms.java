@@ -10,17 +10,18 @@ import java.net.URL;
 public class FireSms {
 
     public static boolean doFireSMS(String mobile, String otp) {
-        // String msg = "Dear User, Your OTP is - " + otp + ". Use this to login at
-        // http://missionhomecoming.com/";
-        // return sendMessageBySMS("7576847577", msg);
-        return true;
+        String msg = "Dear Applicant your OTP is " + otp + ". Use this to login at https://visitassam.org/";
+        return sendMessageBySMS(mobile, msg);
+        // return true;
         // "Dear " + V1
     }
 
     public static boolean sendMessageBySMS(String mobileNo, String message) {
         try {
-            String data = "api_key=A3711226269281ab372a99869b5cdaf4a&method=sms&message=" + message + "&to=91"
-                    + mobileNo + "&sender=MDASTC";
+            // https://alerts.solutionsinfini.com/api/v4/?api_key=A3711226269281ab372a99869b5cdaf4a&method=sms&message=Dear
+            // Applicant your OTP is 12345&to=9954005079&sender=BONIMN
+            String data = "api_key=A3711226269281ab372a99869b5cdaf4a&method=sms&message=" + message + "&to=" + mobileNo
+                    + "&sender=BONIMN";
             String urlstr = "https://alerts.solutionsinfini.com/api/v4/";
             URI uri = new URI(urlstr);
             URL url = null;

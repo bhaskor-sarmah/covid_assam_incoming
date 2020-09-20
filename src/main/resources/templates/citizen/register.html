@@ -157,7 +157,7 @@
                       <div class="col-xl-4 col-md-6 mb-4">
                           <div class="form-group">
                             <label for="justification">
-                                Screening Center
+                                Screening Center(s)
                             </label>
                             <ol id="screening-center-data">
                               Select district to view the screening centers.
@@ -181,6 +181,45 @@
                       </div>
                       <div class="col-xl-4 col-md-6 mb-4">
                         <div class="form-group">
+                          <label for="address_type">
+                            <span class="mandetory">*</span>Select Address Type
+                          </label>
+                          <select data-validation="required" th:field="*{addressType}" class="form-control" onchange="getTownVill(this.value);" id="address_type">
+                              <option value="" selected="selected">--SELECT--</option>
+                              <option value="TOWN">TOWN</option>
+                              <option value="VILLAGE">VILLAGE</option>
+                          </select>
+                          <span th:if="${#fields.hasErrors('addressType')}" th:errors="*{addressType}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                      </div>
+                      <!-- <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="thana_name">
+                            <span class="mandetory">*</span>Police Station Name
+                          </label>
+                          <input 
+                            data-validation="required" type="text" th:field="*{thanaName}"  id="thana_name" placeholder="Enter Thana Name"
+                            class="form-control">
+                          <span th:if="${#fields.hasErrors('thanaName')}" th:errors="*{thanaName}" class="error"></span>
+                        </div>
+                      </div> -->
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
+                          <label for="post_office">
+                            <span class="mandetory">*</span>Post Office Name
+                          </label>
+                          <input 
+                            data-validation="required" type="text" th:field="*{postOffice}" id="post_office" placeholder="Enter Post Office Name"
+                            class="form-control">
+                          <span th:if="${#fields.hasErrors('postOffice')}" th:errors="*{postOffice}" class="error"></span>
+                        </div>
+                      </div>
+                      <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="form-group">
                           <label for="justification">
                             Destination Pincode in Assam
                           </label>
@@ -195,48 +234,78 @@
                               ></span>
                       </div>
                     </div>
-                      <div class="col-xl-4 col-md-6 mb-4">
+                    
+                    <div class="col-xl-4 col-md-6 mb-4">
+                      <div class="form-group">
+                        <label for="justification">
+                            Landmark
+                        </label>
+                        <input th:field="*{landmark}" type="text" id="landmark"
+                          placeholder="Enter Landmark" class="form-control" />
+                        <span
+                            th:if="${#fields.hasErrors('landmark')}"
+                            th:errors="*{landmark}"
+                            class="error"
+                            ></span>
+                    </div>
+                  </div>
+                      <div class="col-xl-4 col-md-6 mb-4 townDiv">
                         <div class="form-group">
-                          <label for="justification">
+                          <label for="flat_house_no">
                             <span class="mandetory">*</span>Flat/House No. in Assam
                           </label>
-                          <input data-validation="required" th:field="*{flat_house_no}" type="text" id="flat_house_no"
+                          <input data-validation="vill_town_validator" th:field="*{flat_house_no}" type="text" id="flat_house_no"
                             placeholder="Enter Flat/House No" class="form-control" />
                           <span
                               th:if="${#fields.hasErrors('flat_house_no')}"
                               th:errors="*{flat_house_no}"
                               class="error"
                               ></span>
+                        </div>
                       </div>
-                    </div>
-                      <div class="col-xl-4 col-md-6 mb-4">
+                      <div class="col-xl-4 col-md-6 mb-4 townDiv">
                         <div class="form-group">
-                          <label for="justification">
+                          <label for="street">
                             <span class="mandetory">*</span>Street/Road Name in Assam
                           </label>
-                          <input data-validation="required" th:field="*{street}" type="text" id="street"
+                          <input data-validation="vill_town_validator" th:field="*{street}" type="text" id="street"
                             placeholder="Enter Street/Road Name" class="form-control" />
                           <span
                               th:if="${#fields.hasErrors('street')}"
                               th:errors="*{street}"
                               class="error"
                               ></span>
+                        </div>
                       </div>
-                    </div>
-                      <div class="col-xl-4 col-md-6 mb-4">
+                      <div class="col-xl-4 col-md-6 mb-4 villageDiv">
                         <div class="form-group">
-                          <label for="justification">
-                              Landmark
+                          <label for="gaon_panchayat">
+                            <span class="mandetory">*</span>Gaon Panchayat Name
                           </label>
-                          <input th:field="*{landmark}" type="text" id="landmark"
-                            placeholder="Enter Landmark" class="form-control" />
+                          <input data-validation="vill_town_validator" th:field="*{gaonPanchayat}" type="text" id="gaon_panchayat"
+                            placeholder="Enter Gaon Panchayat Name" class="form-control" />
                           <span
-                              th:if="${#fields.hasErrors('landmark')}"
-                              th:errors="*{landmark}"
+                              th:if="${#fields.hasErrors('gaonPanchayat')}"
+                              th:errors="*{gaonPanchayat}"
                               class="error"
                               ></span>
+                        </div>
                       </div>
-                    </div>
+                      <div class="col-xl-4 col-md-6 mb-4 villageDiv">
+                        <div class="form-group">
+                          <label for="village_name">
+                            <span class="mandetory">*</span>Village Name
+                          </label>
+                          <input data-validation="vill_town_validator" th:field="*{villageName}" type="text" id="village_name"
+                            placeholder="Enter Village Name" class="form-control" />
+                          <span
+                              th:if="${#fields.hasErrors('villageName')}"
+                              th:errors="*{villageName}"
+                              class="error"
+                              ></span>
+                        </div>
+                      </div>
+                      
                     <div class="col-xl-4 col-md-6 mb-4">
                     </div>
                   </div>
@@ -265,7 +334,7 @@
                           th:errors="*{documentNumber}"
                           class="error"
                           ></span>
-                    </div>
+                      </div>
                     </div>
 
                     <div class="col-xl-4 col-md-6 mb-4">
@@ -278,7 +347,7 @@
                           <option value="" selected="selected">--SELECT--</option>
                           <option value="DRIVING LICENCE">DRIVING LICENCE</option>
                           <option value="PASSPORT">PASSPORT</option>
-                          <option value="ADHAR">ADHAR</option>
+                          <option value="AADHAR">AADHAR</option>
                           <option value="VOTER ID">VOTER ID</option>
                           <option value="SERVICE ID">SERVICE ID</option>
                           <option value="STUDENT ID">STUDENT ID</option>
@@ -316,6 +385,12 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
   <script>
     $(function () {
+      $(".townDiv").hide();
+      $(".villageDiv").hide();
+      $("#gaon_panchayat").val("");
+      $("#village_name").val("");
+      $("#flat_house_no").val("");
+      $("#street").val("");
       function hasExtension(inputID, exts) {
         var fileName = document.getElementById(inputID).value;
         fileName = fileName.toLowerCase();
@@ -363,7 +438,7 @@
           }
         })
         .on('validation', function (evt, valid) {
-          console.log(evt);
+          // console.log(evt);
         });
       $.formUtils.addValidator({
         name: 'to_sub_district_validator',
@@ -446,6 +521,36 @@
         errorMessage: 'This field is required',
         errorMessageKey: 'invalidFromSubDistrict'
       });
+
+      $.formUtils.addValidator({
+        name: 'vill_town_validator',
+        validatorFunction: function (value, $el, config, language, $form, evt) {
+          const villTown = $("#address_type").val();
+          switch ($el.attr("id")) {
+            case "village_name":
+            case "gaon_panchayat":
+              if (villTown === "VILLAGE" && (value == null || value == '')) {
+                return false;
+              } else {
+                return true;
+              }
+              break;
+            case "flat_house_no":
+            case "street":
+              if (villTown === "TOWN" && (value == null || value == '')) {
+                return false;
+              } else {
+                return true;
+              }
+              break;
+            default:
+              return false;
+          }
+          return false;
+        },
+        errorMessage: 'This field is required',
+        errorMessageKey: 'invalidVillTownDetails'
+      });
     });
   </script>
   <script th:if="${errMsg}" th:inline="javascript">
@@ -480,7 +585,7 @@
         timeout: 600000,
 
         success: function (response) {
-          console.log(response);
+          // console.log(response);
           let sl = "";
           $.each(response, (key, val) => {
             sl += `<li>${val.location}</li>`;
@@ -491,7 +596,7 @@
             url: contextPath + "citizen/get-thana-list/" + districtCode,
             timeout: 600000,
             success: function (response) {
-              console.log(response);
+              // console.log(response);
               let sl = "<option value=\"\">--SELECT--</option>";
               $.each(response, (key, val) => {
                 sl += `<option value="${val.thanaName}">${val.thanaName}</li>`;
@@ -508,7 +613,31 @@
         },
       });
 
-    } 
+    }
+
+    function getTownVill(str) {
+      if (str === "") {
+        $(".villageDiv").hide();
+        $(".townDiv").hide();
+        $("#flat_house_no").val("");
+        $("#street").val("");
+        $("#gaon_panchayat").val("");
+        $("#village_name").val("");
+        return;
+      } else if (str === "TOWN") {
+        $(".townDiv").show();
+        $(".villageDiv").hide();
+        $("#gaon_panchayat").val("");
+        $("#village_name").val("");
+        return;
+      } else if (str === "VILLAGE") {
+        $(".villageDiv").show();
+        $(".townDiv").hide();
+        $("#flat_house_no").val("");
+        $("#street").val("");
+        return;
+      }
+    }
   </script>
 </body>
 

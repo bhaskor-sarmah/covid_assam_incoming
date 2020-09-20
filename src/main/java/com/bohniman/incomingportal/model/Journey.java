@@ -78,6 +78,13 @@ public class Journey extends Auditable {
 
     private String pincode;
 
+    /* NEW REQUIREMENTS */
+    private String addressType;
+    private String thanaName;
+    private String postOffice;
+    private String gaonPanchayat;
+    private String villageName;
+
     private boolean isArrivedAtAirport;
 
     // @Lob

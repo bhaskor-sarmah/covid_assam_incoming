@@ -111,7 +111,7 @@ public class PdfPass {
                                 table1.addCell(cell);
 
                                 // Second Part
-                                float[] pointColumnWidths2 = { 6F, 6F, 6F, 6F };
+                                float[] pointColumnWidths2 = { 5F, 7F, 5F, 6F };
                                 PdfPTable table2 = new PdfPTable(pointColumnWidths2);
                                 table2.setWidthPercentage(105);
 
@@ -138,7 +138,9 @@ public class PdfPass {
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
-                                cell = new PdfPCell(new Paragraph(" : " + journey.getName(), f));
+                                cell = new PdfPCell(new Paragraph(" : "
+                                                + ((journey.getName() == null) ? "" : journey.getName().toUpperCase()),
+                                                f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
                                 table2.addCell(cell);
@@ -167,7 +169,8 @@ public class PdfPass {
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
-                                cell = new PdfPCell(new Paragraph(" : " + journey.getFlightNo(), f));
+                                cell = new PdfPCell(new Paragraph(" : " + ((journey.getFlightNo() == null) ? ""
+                                                : journey.getFlightNo().toUpperCase()), f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
                                 table2.addCell(cell);
@@ -176,7 +179,8 @@ public class PdfPass {
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
-                                cell = new PdfPCell(new Paragraph(" : " + journey.getPnrNumber(), f));
+                                cell = new PdfPCell(new Paragraph(" : " + ((journey.getPnrNumber() == null) ? ""
+                                                : journey.getPnrNumber().toUpperCase()), f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
                                 table2.addCell(cell);
@@ -185,7 +189,8 @@ public class PdfPass {
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
-                                cell = new PdfPCell(new Paragraph(" : " + journey.getDistrict().getDistrictName(), f));
+                                cell = new PdfPCell(new Paragraph(
+                                                " : " + journey.getDistrict().getDistrictName().toUpperCase(), f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
                                 table2.addCell(cell);
@@ -194,7 +199,8 @@ public class PdfPass {
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
-                                cell = new PdfPCell(new Paragraph(" : " + journey.getThana(), f));
+                                cell = new PdfPCell(new Paragraph(" : " + ((journey.getThana() == null) ? ""
+                                                : journey.getThana().toUpperCase()), f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
                                 table2.addCell(cell);
@@ -208,29 +214,86 @@ public class PdfPass {
                                 cell.setBorder(0);
                                 table2.addCell(cell);
 
-                                cell = new PdfPCell(new Paragraph("FLAT/HOUSE NO", f));
+                                // cell = new PdfPCell(new Paragraph("POLICE STATION", f));
+                                // cell.setBorder(0);
+                                // cell.setPaddingTop(10);
+                                // table2.addCell(cell);
+                                // cell = new PdfPCell(new Paragraph(" : " + journey.getThanaName(), f));
+                                // cell.setPaddingTop(10);
+                                // cell.setBorder(0);
+                                // table2.addCell(cell);
+
+                                cell = new PdfPCell(new Paragraph("ADDRESS TYPE", f));
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
-                                cell = new PdfPCell(new Paragraph(" : " + journey.getFlat_house_no(), f));
+                                cell = new PdfPCell(new Paragraph(" : " + journey.getAddressType(), f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
                                 table2.addCell(cell);
 
-                                cell = new PdfPCell(new Paragraph("STREET/ROAD NAME", f));
+                                cell = new PdfPCell(new Paragraph("POST OFFICE", f));
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
-                                cell = new PdfPCell(new Paragraph(" : " + journey.getStreet(), f));
+                                cell = new PdfPCell(new Paragraph(" : " + ((journey.getPostOffice() == null) ? ""
+                                                : journey.getPostOffice().toUpperCase()), f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
                                 table2.addCell(cell);
+                                if (journey.getAddressType().equals("TOWN")) {
+                                        cell = new PdfPCell(new Paragraph("FLAT/HOUSE NO", f));
+                                        cell.setBorder(0);
+                                        cell.setPaddingTop(10);
+                                        table2.addCell(cell);
+                                        cell = new PdfPCell(new Paragraph(
+                                                        " : " + ((journey.getFlat_house_no() == null) ? ""
+                                                                        : journey.getFlat_house_no().toUpperCase()),
+                                                        f));
+                                        cell.setPaddingTop(10);
+                                        cell.setBorder(0);
+                                        table2.addCell(cell);
+
+                                        cell = new PdfPCell(new Paragraph("STREET/ROAD NAME", f));
+                                        cell.setBorder(0);
+                                        cell.setPaddingTop(10);
+                                        table2.addCell(cell);
+                                        cell = new PdfPCell(new Paragraph(" : " + ((journey.getStreet() == null) ? ""
+                                                        : journey.getStreet().toUpperCase()), f));
+                                        cell.setPaddingTop(10);
+                                        cell.setBorder(0);
+                                        table2.addCell(cell);
+                                } else {
+                                        cell = new PdfPCell(new Paragraph("GAON PANCHAYAT", f));
+                                        cell.setBorder(0);
+                                        cell.setPaddingTop(10);
+                                        table2.addCell(cell);
+                                        cell = new PdfPCell(new Paragraph(
+                                                        " : " + ((journey.getGaonPanchayat() == null) ? ""
+                                                                        : journey.getGaonPanchayat().toUpperCase()),
+                                                        f));
+                                        cell.setPaddingTop(10);
+                                        cell.setBorder(0);
+                                        table2.addCell(cell);
+
+                                        cell = new PdfPCell(new Paragraph("VILLAGE NAME", f));
+                                        cell.setBorder(0);
+                                        cell.setPaddingTop(10);
+                                        table2.addCell(cell);
+                                        cell = new PdfPCell(
+                                                        new Paragraph(" : " + ((journey.getVillageName() == null) ? ""
+                                                                        : journey.getVillageName().toUpperCase()), f));
+                                        cell.setPaddingTop(10);
+                                        cell.setBorder(0);
+                                        table2.addCell(cell);
+                                }
 
                                 cell = new PdfPCell(new Paragraph("LANDMARK", f));
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
-                                cell = new PdfPCell(new Paragraph(" : " + journey.getLandmark(), f));
+                                cell = new PdfPCell(new Paragraph(" : " + ((journey.getLandmark() == null) ? ""
+                                                : journey.getLandmark().toUpperCase()), f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
                                 table2.addCell(cell);
@@ -257,7 +320,8 @@ public class PdfPass {
                                 cell.setBorder(0);
                                 cell.setPaddingTop(10);
                                 table2.addCell(cell);
-                                cell = new PdfPCell(new Paragraph(" : " + journey.getDocumentNumber(), f));
+                                cell = new PdfPCell(new Paragraph(" : " + ((journey.getDocumentNumber() == null) ? ""
+                                                : journey.getDocumentNumber().toUpperCase()), f));
                                 cell.setPaddingTop(10);
                                 cell.setBorder(0);
                                 table2.addCell(cell);

@@ -66,9 +66,9 @@
                                     <tbody>
                                         <tr th:each="j,iterator : ${journeyList}">
                                             <td th:text="${iterator.index+1}"></td>
-                                            <td th:text="${j.name}"></td>
-                                            <td th:text="${j.flightNo}"></td>
-                                            <td th:text="${j.pnrNumber}"></td>
+                                            <td th:text="${#strings.toUpperCase(j.name)}"></td>
+                                            <td th:text="${#strings.toUpperCase(j.flightNo)}"></td>
+                                            <td th:text="${#strings.toUpperCase(j.pnrNumber)}"></td>
                                             <td th:text="${#dates.format(j.dateOfTravel, 'dd-MMM-yyyy')}"></td>
                                             <td>
                                                 <form th:action="@{/citizen/downloadPass.pdf}" method="POST">

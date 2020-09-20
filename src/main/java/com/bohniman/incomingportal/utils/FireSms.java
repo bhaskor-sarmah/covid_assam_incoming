@@ -13,7 +13,6 @@ public class FireSms {
         String msg = "Dear Applicant your OTP is " + otp + ". Use this to login at https://visitassam.org/";
         return sendMessageBySMS(mobile, msg);
         // return true;
-        // "Dear " + V1
     }
 
     public static boolean sendMessageBySMS(String mobileNo, String message) {
